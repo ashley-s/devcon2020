@@ -30,34 +30,16 @@
   <div class="ui input">
     <input type="text" 
            [formControl]="name" 
-           [ngStyle]="{'border': name.invalid && (name.dirty || name.touched) ? 'solid 2px red' : ''}"
+           [ngStyle]="{'border': name.invalid ? 'solid 2px red' : ''}"
            placeholder="Enter name"/>
   </div>
-  <div *ngIf="name.errors && name.errors.required && (name.dirty || name.touched)">
+  <div *ngIf="name.errors && name.errors.required">
     This field is required
   </div>
-  <div *ngIf="name.errors && name.errors.minlength && (name.dirty || name.touched)">
+  <div *ngIf="name.errors && name.errors.minlength">
     This field should have a minimum of 5 characters
   </div>
   <br>
-  <!-- <div>
-    Is status invalid?  {{name.invalid}}
-  </div>
-  <div>
-    Is status valid? {{name.valid}}
-  </div>
-  <div>
-    Is status pristine? {{name.pristine}}
-  </div>
-  <div>
-    Is status touched? {{name.touched}}
-  </div>
-  <div>
-    Is status dirty? {{name.dirty}}
-  </div>
-  <div>
-    Is status untouched? {{name.untouched}}
-  </div> -->
   <div>
     <br>
     <!-- {{nameValue}} -->
