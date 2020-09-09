@@ -14,28 +14,32 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.mainForm = this.fb.group({
-      fname: ["", [Validators.required, Validators.minLength(5)]],
-      lname: ["", [Validators.required]],
-      address: ["", [Validators.required]],
-      phone: ["", [phoneValidatorFactory('mobile')]]
+      personalInfo: this.fb.group({
+        fname: ["", [Validators.required, Validators.minLength(5)]],
+        lname: ["", [Validators.required]]
+      }),
+      contactInfo: this.fb.group({
+        address: ["", [Validators.required]],
+        phone: ["", [phoneValidatorFactory('mobile')]]
+      })
     })
     //this.onChanges();
   }
 
   get fname() {
-    return this.mainForm.get('fname');
+    return this.mainForm.get('personalInfo.fname');
   }
 
   get lname() {
-    return this.mainForm.get('lname');
+    return this.mainForm.get('personalInfo.lname');
   }
 
   get address() {
-    return this.mainForm.get('address');
+    return this.mainForm.get('contactInfo.address');
   }
 
   get phone() {
-    return this.mainForm.get('phone');
+    return this.mainForm.get('contactInfo.phone');
   }
 
   submitForm(form: NgForm) {
