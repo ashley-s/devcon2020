@@ -10,6 +10,54 @@
 
     <app-personal-info [mainForm]="mainForm" [formStatus]="form" (modelUpdate)="setPersonalInfo($event)"></app-personal-info>
     <app-contact-info [mainForm]="mainForm" [formStatus]="form" (modelUpdate)="setContactInfo($event)"></app-contact-info>
+    <h4 class="ui dividing header">Course Information</h4>
+    <button class="ui button" type="button" (click)="addcourse()">Add</button>
+    <div formArrayName="courses">
+      <div class="field" [formGroupName]="i" *ngFor="let courseForm of courses.controls; let i=index">
+        <label>Course {{i+1}}</label>
+        <div class="four fields">
+          <div class="field">
+            <input type="text"
+              [ngStyle]="{'border': courseForm.controls['courseId'].invalid && form.submitted ? 'solid 2px red' : ''}"
+              formControlName="courseId" placeholder="Enter course Id">
+            <div *ngIf="courseForm.controls['courseId'].errors && form.submitted">
+                            {{courseForm.controls['courseId'].errors.message}}
+            </div>
+            <div *ngIf="courseForm.controls['courseId'].pending">
+              validating in the backend...
+            </div>
+          </div>
+
+          <div class="field">
+            <input type="text"
+              [ngStyle]="{'border': courseForm.controls['courseName'].invalid && form.submitted ? 'solid 2px red' : ''}"
+              formControlName="courseName" placeholder="Enter course Name">
+            <div *ngIf="courseForm.controls['courseName'].errors && form.submitted">
+                               This field is required
+                        </div>
+          </div>
+
+          <div class="field">
+            <select formControlName="payment" 
+                    [ngStyle]="{'border': courseForm.controls['payment'].invalid && form.submitted ? 'solid 2px red' : ''}"
+                    placeholder="Select Payment option">
+              <option>Cash</option>
+              <option>Card</option>
+            </select>
+            <div *ngIf="courseForm.controls['payment'].errors && form.submitted">
+                               This field is required
+                        </div>
+          </div>
+
+          <div class="field">
+              <!-- <div *ngIf="phone.errors && mainFormStatus.submitted">
+                                 {{phone.errors.message}}
+                          </div> -->
+              <button class="ui button" (click)="removeCourse(i)">Remove</button>
+            </div>
+        </div>
+      </div>
+    </div>
     <br>
     <button type="submit" class="ui button">
       Submit
@@ -20,6 +68,6 @@
     <!-- {{nameValue}} -->
     form value -> {{mainForm.value | json}}
     <br>
-    Registration -> {{registrationObj | json}}
+    Registration -> {{holderRegistrationObj | json}}
   </div>
 </div>

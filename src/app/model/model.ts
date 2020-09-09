@@ -8,14 +8,14 @@ export interface ContactInformation {
     phone: string;
 }
 
-export interface course {
+export interface Course {
     courseId: string;
     courseName: string;
     payment: string;
 }
 
 export interface Registration {
-    courses: course[];
+    courses: Course[];
     personalInfo: PersonalInformation;
     contactInfo: ContactInformation;
 }
