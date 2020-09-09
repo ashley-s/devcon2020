@@ -9,33 +9,48 @@
       <label>Name</label>
       <div class="two fields">
         <div class="field">
-          <input type="text"
-            [ngStyle]="{'border': mainForm.get('fname').invalid && form.submitted ? 'solid 2px red' : ''}"
+          <input type="text" [ngStyle]="{'border': fname.invalid && form.submitted ? 'solid 2px red' : ''}"
             formControlName="fname" placeholder="Enter first name">
-          <div
-            *ngIf="mainForm.get('fname').errors && mainForm.get('fname').errors.required && form.submitted">
+          <div *ngIf="fname.errors && fname.errors.required && form.submitted">
             This field is required
           </div>
 
-          <div
-            *ngIf="mainForm.get('fname').errors && mainForm.get('fname').errors.minlength && form.submitted">
+          <div *ngIf="fname.errors && fname.errors.minlength && form.submitted">
             This field should have a minimum of 5 characters
           </div>
         </div>
 
         <div class="field">
-          <input type="text"
-            [ngStyle]="{'border': mainForm.get('lname').invalid && form.submitted ? 'solid 2px red' : ''}"
+          <input type="text" [ngStyle]="{'border': lname.invalid && form.submitted ? 'solid 2px red' : ''}"
             formControlName="lname" placeholder="Enter last name">
-          <div
-            *ngIf="mainForm.get('lname').errors && mainForm.get('lname').errors.required && form.submitted">
+          <div *ngIf="lname.errors && lname.errors.required && form.submitted">
             This field is required
           </div>
         </div>
       </div>
     </div>
 
+    <h4 class="ui dividing header">Contact Information</h4>
+    <div class="field">
+      <label>Address</label>
+      <div class="two fields">
+        <div class="field">
+          <input type="text" [ngStyle]="{'border': address.invalid && form.submitted ? 'solid 2px red' : ''}"
+            formControlName="address" placeholder="Enter address">
+          <div *ngIf="address.errors?.required && form.submitted">
+            This field is required
+          </div>
+        </div>
 
+        <div class="field">
+          <input type="text" [ngStyle]="{'border': phone.invalid && form.submitted ? 'solid 2px red' : ''}"
+            formControlName="phone" placeholder="Enter phone number">
+          <div *ngIf="phone.errors && form.submitted">
+            {{phone.errors.message}}
+          </div>
+        </div>
+      </div>
+    </div>
     <br>
     <button type="submit" class="ui button">
       Submit
