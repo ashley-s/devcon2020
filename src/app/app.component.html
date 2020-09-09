@@ -8,8 +8,8 @@
         (ngSubmit)="submitForm(form)" 
         #form="ngForm">
 
-    <app-personal-info [mainForm]="mainForm" [formStatus]="form" (modelUpdate)="setPersonalInfo($event)"></app-personal-info>
-    <app-contact-info [mainForm]="mainForm" [formStatus]="form" (modelUpdate)="setContactInfo($event)"></app-contact-info>
+    <app-personal-info [mainForm]="mainForm" [formStatus]="form" (modelUpdate)="setPersonalInfo($event)" [personalInfo]="holderRegistrationObj.personalInfo"></app-personal-info>
+    <app-contact-info [mainForm]="mainForm" [formStatus]="form" (modelUpdate)="setContactInfo($event)" [contactInfo]="holderRegistrationObj.contactInfo"></app-contact-info>
     <h4 class="ui dividing header">Course Information</h4>
     <button class="ui button" type="button" (click)="addcourse()">Add</button>
     <div formArrayName="courses">
@@ -45,6 +45,15 @@
               <option>Card</option>
             </select>
             <div *ngIf="courseForm.controls['payment'].errors && form.submitted">
+                               This field is required
+                        </div>
+          </div>
+          
+          <div class="field">
+            <input type="text"
+              [ngStyle]="{'border': courseForm.controls['cardNumber'].invalid && form.submitted ? 'solid 2px red' : ''}"
+              formControlName="cardNumber" placeholder="Enter credit Card Number">
+            <div *ngIf="courseForm.controls['cardNumber'].errors && form.submitted">
                                This field is required
                         </div>
           </div>

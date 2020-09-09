@@ -14,7 +14,7 @@ export class ContactInfoComponent implements OnInit {
 
   @Input("mainForm") mainForm: FormGroup;
   @Input("formStatus") mainFormStatus: NgForm;
-  contactInfo: ContactInformation = <ContactInformation>{};
+  @Input("contactInfo") contactInfo: ContactInformation;
   @Output("modelUpdate") modelUpdate = new EventEmitter<ContactInformation>();
 
   constructor(
@@ -26,6 +26,7 @@ export class ContactInfoComponent implements OnInit {
       address: ["", [Validators.required]],
       phone: ["", [ContactInfoComponent.validateMobilePhone]]
     });
+    this.contactInfoForm.setValue(this.contactInfo);
     this.mainForm.addControl("contactInfo", this.contactInfoForm);
     this.onChanges();
   }

@@ -11,7 +11,7 @@ export class PersonalInfoComponent implements OnInit {
 
   @Input("mainForm") mainForm: FormGroup;
   @Input("formStatus") mainFormStatus: NgForm;
-  personalInfo: PersonalInformation = <PersonalInformation>{};
+  @Input("personalInfo") personalInfo: PersonalInformation;
   @Output("modelUpdate") modelUpdate = new EventEmitter<PersonalInformation>();
 
   personalInfoForm: FormGroup;
@@ -24,6 +24,7 @@ export class PersonalInfoComponent implements OnInit {
       fname: ["", [Validators.required, Validators.minLength(5)]],
       lname: ["", [Validators.required]]
     });
+    this.personalInfoForm.setValue(this.personalInfo);
     this.mainForm.addControl("personalInfo", this.personalInfoForm);
     this.onChanges();
   }

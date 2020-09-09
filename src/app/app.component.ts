@@ -25,6 +25,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     })
     this.holderRegistrationObj = {} as Registration;
     //this.onChanges();
+    this.holderRegistrationObj = this.getDataFromService();
+    //prefill if there is any data availabl
+    this.holderRegistrationObj.courses.forEach((course: Course) => {
+      this.courses.push(this.createFormGroup(course));
+      this.subscribeToFormControls(this.courses.controls[this.courses.length - 1] as FormGroup);
+    });
   }
 
   ngAfterViewInit() {
@@ -50,15 +56,55 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.holderRegistrationObj.contactInfo = $event;
   }
 
-  addcourse() {
-    this.courses.push(this.fb.group({
-      courseId: [null, [Validators.required, this.validateCourseId]],
-      courseName: [null, Validators.required],
-      payment: [null, Validators.required]
-    }));
+  addcourse(course: Course) {
+    // this.courses.push(this.fb.group({
+    //   courseId: [null, [Validators.required, this.validateCourseId]],
+    //   courseName: [null, Validators.required],
+    //   payment: [null, Validators.required]
+    // }));
+    // //subscribe to a control value changes
+    // const courseIdControl = <FormControl>this.courses.controls[this.courses.length - 1].get("courseId");
+    // this.subscribeToCourseIdChanges(courseIdControl);
+
+    this.courses.push(this.createFormGroup(course));
     //subscribe to a control value changes
-    const courseIdControl = <FormControl>this.courses.controls[this.courses.length - 1].get("courseId");
-    this.subscribeToCourseIdChanges(courseIdControl);
+    const formGroup = <FormGroup>this.courses.controls[this.courses.length - 1];
+    this.subscribeToFormControls(formGroup);
+  }
+
+  private createFormGroup(course:Course = {courseId: null, courseName: null, payment: null, cardNumber: null} as Course) {
+    return this.fb.group({
+      courseId: [course.courseId, [Validators.required, this.validateCourseId]],
+      courseName: [course.courseName, Validators.required],
+      payment: [course.payment, Validators.required],
+      cardNumber:[null]
+    });
+  }
+
+  private subscribeToFormControls(form: FormGroup) {
+    const courseIdControl = form.get("courseId");
+    const paymentControl = form.get("payment");
+    const cardNumberControl = form.get("cardNumber");
+
+    courseIdControl.valueChanges.subscribe((data) => {
+      if (courseIdControl.valid) {
+        courseIdControl.setAsyncValidators(this.validateCourseIdBackEnd);
+      } else {
+        courseIdControl.setAsyncValidators(null);
+      }
+      courseIdControl.updateValueAndValidity({
+        emitEvent: false
+      });
+    });
+
+    paymentControl.valueChanges.subscribe((data) => {
+      if(data == "Cash") {
+        cardNumberControl.setValidators(null);
+      } else {
+        cardNumberControl.setValidators(Validators.required);
+      }
+      cardNumberControl.updateValueAndValidity();
+    })
   }
 
   removeCourse(idx) {
@@ -114,5 +160,27 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.mainForm.get('courses').valueChanges.subscribe((data: Course[]) => {
       this.holderRegistrationObj.courses = data;
     })
+  }
+
+  private getDataFromService(): Registration {
+    return JSON.parse(`{
+      "contactInfo": {
+        "address": "Curepipe",
+        "phone": "59050401"
+      },
+      "personalInfo": {
+        "fname": "Ashley",
+        "lname": "Shookhye"
+      },
+      "courses": [{
+        "courseId": "C1234",
+        "courseName": "Maths",
+        "payment": "Cash"
+      }, {
+        "courseId": "C1235",
+        "courseName": "English",
+        "payment": "Cash"
+      }]
+    }`) as Registration;
   }
 } 
