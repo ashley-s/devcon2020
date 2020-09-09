@@ -1,58 +1,51 @@
 <h1 class="ui center align header">Student Registration Form</h1>
 <br>
 <br>
-<!-- <div class="ui left container" style="width: 50%">
-  <h4 class="ui dividing header">Personal Information</h4>
-  <label>Name</label>
-  <div class="ui input">
-    <input type="text" 
-           [formControl]="name" 
-           [ngStyle]="{'border': name.invalid ? 'solid 2px red' : ''}"
-           placeholder="Enter name"/>
-  </div>
-  <div *ngIf="name.errors && name.errors.required">
-    This field is required
-  </div>
-  <div *ngIf="name.errors && name.errors.minlength">
-    This field should have a minimum of 5 characters
-  </div>
-  <div>
-    <br>
-    valid -> {{name.valid}}
-    <br/>
-    value -> {{name.value}}
-  </div>
-</div> -->
-
 <div class="ui left container" style="width: 50%">
-  <h4 class="ui dividing header">Personal Information</h4>
-  <label>Name</label>
-  <div class="ui input">
-    <input type="text" 
-           [formControl]="name" 
-           [ngStyle]="{'border': name.invalid ? 'solid 2px red' : ''}"
-           placeholder="Enter name"/>
-  </div>
-  <div *ngIf="name.errors && name.errors.required">
-    This field is required
-  </div>
-  <div *ngIf="name.errors && name.errors.minlength">
-    This field should have a minimum of 5 characters
-  </div>
-  <br>
+  <form class="ui form" [formGroup]="mainForm" (ngSubmit)="submitForm(form)" #form="ngForm">
+    <h4 class="ui dividing header">Personal Information</h4>
+
+    <div class="field">
+      <label>Name</label>
+      <div class="two fields">
+        <div class="field">
+          <input type="text"
+            [ngStyle]="{'border': mainForm.get('fname').invalid && form.submitted ? 'solid 2px red' : ''}"
+            formControlName="fname" placeholder="Enter first name">
+          <div
+            *ngIf="mainForm.get('fname').errors && mainForm.get('fname').errors.required && form.submitted">
+            This field is required
+          </div>
+
+          <div
+            *ngIf="mainForm.get('fname').errors && mainForm.get('fname').errors.minlength && form.submitted">
+            This field should have a minimum of 5 characters
+          </div>
+        </div>
+
+        <div class="field">
+          <input type="text"
+            [ngStyle]="{'border': mainForm.get('lname').invalid && form.submitted ? 'solid 2px red' : ''}"
+            formControlName="lname" placeholder="Enter last name">
+          <div
+            *ngIf="mainForm.get('lname').errors && mainForm.get('lname').errors.required && form.submitted">
+            This field is required
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <br>
+    <button type="submit" class="ui button">
+      Submit
+    </button>
+  </form>
+
   <div>
-    Is status valid? {{name.valid}}
-  </div>
-  <div>
-    Is status pristine? {{name.pristine}}
-  </div>
-  <div>
-    Is status touched? {{name.touched}}
-  </div>
-  <div>
-    Is status dirty? {{name.dirty}}
-  </div>
-  <div>
-    Is status untouched? {{name.untouched}}
+    <!-- {{nameValue}} -->
+    form value -> {{mainForm.value | json}}
+    <br>
+    form status -> {{mainForm.status}}
   </div>
 </div>
