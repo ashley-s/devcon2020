@@ -2,55 +2,14 @@
 <br>
 <br>
 <div class="ui left container" style="width: 50%">
-  <form class="ui form" [formGroup]="mainForm" (ngSubmit)="submitForm(form)" #form="ngForm">
-    <h4 class="ui dividing header">Personal Information</h4>
+  
+  <form class="ui form" 
+        [formGroup]="mainForm" 
+        (ngSubmit)="submitForm(form)" 
+        #form="ngForm">
 
-    <div class="field">
-      <label>Name</label>
-      <div class="two fields">
-        <div class="field">
-          <input type="text" [ngStyle]="{'border': fname.invalid && form.submitted ? 'solid 2px red' : ''}"
-            formControlName="fname" placeholder="Enter first name">
-          <div *ngIf="fname.errors && fname.errors.required && form.submitted">
-            This field is required
-          </div>
-
-          <div *ngIf="fname.errors && fname.errors.minlength && form.submitted">
-            This field should have a minimum of 5 characters
-          </div>
-        </div>
-
-        <div class="field">
-          <input type="text" [ngStyle]="{'border': lname.invalid && form.submitted ? 'solid 2px red' : ''}"
-            formControlName="lname" placeholder="Enter last name">
-          <div *ngIf="lname.errors && lname.errors.required && form.submitted">
-            This field is required
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h4 class="ui dividing header">Contact Information</h4>
-    <div class="field">
-      <label>Address</label>
-      <div class="two fields">
-        <div class="field">
-          <input type="text" [ngStyle]="{'border': address.invalid && form.submitted ? 'solid 2px red' : ''}"
-            formControlName="address" placeholder="Enter address">
-          <div *ngIf="address.errors?.required && form.submitted">
-            This field is required
-          </div>
-        </div>
-
-        <div class="field">
-          <input type="text" [ngStyle]="{'border': phone.invalid && form.submitted ? 'solid 2px red' : ''}"
-            formControlName="phone" placeholder="Enter phone number">
-          <div *ngIf="phone.errors && form.submitted">
-            {{phone.errors.message}}
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-personal-info [mainForm]="mainForm" [formStatus]="form"></app-personal-info>
+    <app-contact-info [mainForm]="mainForm" [formStatus]="form"></app-contact-info>
     <br>
     <button type="submit" class="ui button">
       Submit
