@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { PersonalInformation } from '../model/model';
 
 @Component({
   selector: 'app-personal-info',
@@ -10,6 +11,8 @@ export class PersonalInfoComponent implements OnInit {
 
   @Input("mainForm") mainForm: FormGroup;
   @Input("formStatus") mainFormStatus: NgForm;
+  personalInfo: PersonalInformation = <PersonalInformation>{};
+  @Output("modelUpdate") modelUpdate = new EventEmitter<PersonalInformation>();
 
   personalInfoForm: FormGroup;
   constructor(private fb: FormBuilder) {
@@ -21,9 +24,8 @@ export class PersonalInfoComponent implements OnInit {
       fname: ["", [Validators.required, Validators.minLength(5)]],
       lname: ["", [Validators.required]]
     });
-
     this.mainForm.addControl("personalInfo", this.personalInfoForm);
-    //this.onChanges();
+    this.onChanges();
   }
 
   get fname() {
@@ -32,6 +34,14 @@ export class PersonalInfoComponent implements OnInit {
 
   get lname() {
     return this.personalInfoForm.get('lname');
+  }
+
+  private onChanges() {
+    this.personalInfoForm.valueChanges.subscribe((data: PersonalInformation) => {
+      this.personalInfo.fname = data.fname;
+      this.personalInfo.lname = data.lname;
+      this.modelUpdate.emit(this.personalInfo);
+    })
   }
 
 }

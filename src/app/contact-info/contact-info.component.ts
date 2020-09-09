@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
+import { ContactInformation } from '../model/model';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-contact-info',
@@ -12,6 +14,8 @@ export class ContactInfoComponent implements OnInit {
 
   @Input("mainForm") mainForm: FormGroup;
   @Input("formStatus") mainFormStatus: NgForm;
+  contactInfo: ContactInformation = <ContactInformation>{};
+  @Output("modelUpdate") modelUpdate = new EventEmitter<ContactInformation>();
 
   constructor(
     private fb: FormBuilder
@@ -23,6 +27,7 @@ export class ContactInfoComponent implements OnInit {
       phone: ["", [ContactInfoComponent.validateMobilePhone]]
     });
     this.mainForm.addControl("contactInfo", this.contactInfoForm);
+    this.onChanges();
   }
 
   get address() {
@@ -46,5 +51,13 @@ export class ContactInfoComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  private onChanges() {
+    this.contactInfoForm.valueChanges.subscribe((data: ContactInformation) => {
+      this.contactInfo.address = data.address;
+      this.contactInfo.phone = data.phone;
+      this.modelUpdate.emit(this.contactInfo);
+    })
   }
 }

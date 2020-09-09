@@ -8,8 +8,8 @@
         (ngSubmit)="submitForm(form)" 
         #form="ngForm">
 
-    <app-personal-info [mainForm]="mainForm" [formStatus]="form"></app-personal-info>
-    <app-contact-info [mainForm]="mainForm" [formStatus]="form"></app-contact-info>
+    <app-personal-info [mainForm]="mainForm" [formStatus]="form" (modelUpdate)="setPersonalInfo($event)"></app-personal-info>
+    <app-contact-info [mainForm]="mainForm" [formStatus]="form" (modelUpdate)="setContactInfo($event)"></app-contact-info>
     <br>
     <button type="submit" class="ui button">
       Submit
@@ -20,6 +20,6 @@
     <!-- {{nameValue}} -->
     form value -> {{mainForm.value | json}}
     <br>
-    form status -> {{mainForm.status}}
+    Registration -> {{registrationObj | json}}
   </div>
 </div>

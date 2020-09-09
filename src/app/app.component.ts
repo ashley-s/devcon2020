@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, NgForm, FormBuilder } from '@angular/forms';
+import { Registration } from './model/model';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ export class AppComponent implements OnInit {
   //name: FormControl;
   nameValue: string;
   mainForm: FormGroup;
+  registrationObj: Registration = <Registration>{};
   constructor(private fb: FormBuilder) {
     
   }
@@ -19,9 +21,17 @@ export class AppComponent implements OnInit {
     //this.onChanges();
   }
 
+  setPersonalInfo($event) {
+    this.registrationObj.personalInfo = $event;
+  }
+
+  setContactInfo($event) {
+    this.registrationObj.contactInfo = $event;
+  }
+
   submitForm(form: NgForm) {
     console.log('-----------');
-    console.log(form.status);
+    console.log(this.registrationObj);
     console.log('-----------');
     console.log('-----------');
     console.log(form.value);
