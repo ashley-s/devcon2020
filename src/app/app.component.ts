@@ -15,6 +15,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     //standard way of creating a formControl
     this.name = new FormControl("", [Validators.required, Validators.minLength(5)]);
+    //another way of creating a formControl or a formGroup instance for complex forms
+    // this.name = this.fb.control("", [Validators.required, Validators.minLength(5)]);
   }
 
 }
